@@ -1,0 +1,35 @@
+.post {
+    background: var(--gray-800);
+    border: 0.5rem;
+    padding: 2.5rem;
+}
+
+.post + .post {
+    margin-top:  2rem;
+}
+
+.content {
+    line-height: 1.6;
+    color: var(--gray-300);
+    margin-top:  1.5rem;
+}
+
+.content p {
+    margin-top: 1rem;
+}
+  
+.hashtag {
+    gap: 0.5rem;
+    display: flex;  
+}
+
+.hashtag a {
+    font-weight: bold;
+    color: var(--green-500);
+    text-decoration: none;  
+}
+
+.hashtag a:hover { 
+    color: var(--green-300); 
+}
+

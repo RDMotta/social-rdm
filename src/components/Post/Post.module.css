@@ -1,0 +1,10 @@
+.post {
+    background: var(--gray-800);
+    border: 0.5rem;
+    padding: 2.5rem;
+}
+
+.post + .post {
+    margin-top:  2rem;
+}
+
