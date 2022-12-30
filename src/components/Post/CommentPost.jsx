@@ -25,28 +25,40 @@ export function CommentPost({ comments }){
     }
 
     function handleNewCommentChange(){
+       event.target.setCustomValidity('');
        setNewCommentText(event.target.value);  
     }
 
-    function deleteComment(commnetToDelete){
-        console.log(`Deletando comentario ${commnetToDelete.id}`);
+    function deleteComment(commnetToDelete){ 
         const commentListResult = commentsPost.filter(comment => {
            return  commnetToDelete.id != comment.id;
-        });
-        console.log(`Refazendo lista comentario ${commentListResult}`);    
+        });    
         setComments(commentListResult);    
     }
+
+    function handleNewCommentValid(){
+        event.target.setCustomValidity('Para adicionar um comentário precisa informar um texto');
+    }
+
+    const isCommentEmpty = newCommentText.length <= 0;
 
     return(
         <>
         <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
             <strong>Comente!</strong>
             <textarea 
-                placeholder="Deixe seu comentário..."
+                placeholder="Deixe seu comentário..."                
                 value={newCommentText}
                 onChange={handleNewCommentChange}
+                onInvalid={handleNewCommentValid}
+                required
             /> 
-            <button type="submit">Comentar</button>
+            <button 
+                type="submit"
+                disabled={isCommentEmpty}
+            >
+            Comentar
+            </button>
         </form>
         <div className={styles.commentList}>
            {commentsPost.map(comment => {                 
