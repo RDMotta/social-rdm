@@ -1,24 +1,49 @@
+import { format, formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { ThumbsUp, Trash } from 'phosphor-react';
 import { Avatar } from '../Avatar/Avatar';
 import styles from './Comment.module.css';
 
-export function Comment(){
+export function Comment({ author, comment, publishedAt, onDeleteComment }){
+    const commentDateFormatted = format(publishedAt, "dd 'de' LLLL 'às' HH:mm'h'", { 
+        locale: ptBR, 
+    });
+
+    const commentDateRelativeToNow = formatDistanceToNow(publishedAt, {
+        locale: ptBR,
+        addSuffix: true,
+    })
+
+    function handleDeleteComment(){
+        onDeleteComment(comment);
+    }
     return(
         <div className={styles.comment}>
-            <Avatar hasBorder={false} src="https://github.com/RDMotta.png" />
-
+            <Avatar hasBorder={false} src={author.avatarUrl} />
             <div className={styles.commentBox}>
                 <div className={styles.commentContent}>
                     <header>
                         <div className={styles.authorAndTime}>
-                            <strong>Robson da Motta</strong>
-                            <time title="28 de Dezembro às 13:31" dateTime="2022-12-28 13:31:00">Publicado há um tempo</time>
+                            <strong>{author.name}</strong>
+                            <time 
+                                title={commentDateFormatted} 
+                                dateTime={publishedAt.toISOString()}
+                            >
+                            {commentDateRelativeToNow}
+                            </time>
                         </div>
-                        <button title="Deletar Comentário">
+                        <button 
+                            onClick={handleDeleteComment} 
+                            title="Deletar Comentário"
+                        >
                             <Trash size={20}/>
                         </button>
                     </header> 
-                    <p>Parabéns pelo bom trabalho</p>               
+                    {comment.content.map(line =>{
+                       if (line.type =='paragraph') {
+                          return <p key={comment.id}>{line.content}</p>                
+                       }
+                    })}                     
                 </div>
                 <footer>
                     <button >

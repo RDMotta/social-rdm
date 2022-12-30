@@ -1,17 +1,29 @@
-import { Avatar } from '../Avatar/Avatar';
-import styles from './HeaderPost.module.css'
+import { format, formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
-export function HeaderPost(){
+import { Avatar } from '../Avatar/Avatar';
+import styles from './HeaderPost.module.css';
+
+export function HeaderPost({avatarUrl, name, role, publishedAt}){
+    const publishedDateFormatted = format(publishedAt, "dd 'de' LLLL 'às' HH:mm'h'", { 
+        locale: ptBR, 
+    });
+
+    const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+        locale: ptBR,
+        addSuffix: true,
+    })
+    
     return(
         <header className={styles.header}>
             <div className={styles.author}>
-                <Avatar src="https://github.com/RDMotta.png" />
+                <Avatar src={avatarUrl} />
                 <div className={styles.authorInfo}>
-                    <strong>Robson da Motta</strong>
-                    <span>Web Developer</span>
+                    <strong>{name}</strong>
+                    <span>{role}</span>
                 </div> 
             </div>
-            <time title="28 de Dezembro às 13:31" dateTime="2022-12-28 13:31:00">Publicado há um tempo</time>
+            <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>{publishedDateRelativeToNow}</time>
         </header>
     );
 }

@@ -1,15 +1,27 @@
 import styles from './ContentPost.module.css'
 
-export function ContentPost(){
+export function ContentPost({ content }){
     return(
         <div className={styles.content}>
-            <p>Post relacionado ao treinamento</p>
-            <p>
-                <a href="#">localhost:3200</a>
-            </p>
+            {content.map(line =>{
+                if (line.type == 'paragraph'){
+                  return <p key={line.content}>{line.content}</p>  
+                }
+                if (line.type == 'link'){
+                    return (
+                        <p key={line.content}>
+                            <a href="#">{line.content}</a>
+                        </p>
+                    )
+                  }
+            })} 
+            
             <div className={styles.hashtag}>
-                <a href="#">#hashtag</a>
-                <a href="#">#hashtag2</a>
+                {content.map(line =>{
+                    if (line.type == 'hashtag'){
+                        return <a key={line.content} href="#">{line.content}</a>
+                    }
+                })} 
             </div>
         </div>
     );
